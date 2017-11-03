@@ -14,14 +14,15 @@ EucDist <- function(x1, x2) sqrt(sum((x1 - x2) ^ 2))
  # initial variables
 args = commandArgs()
 db.name = args[6]
-bin.number = as.numeric(args[7])
+db.collection_name = args[7]
+bin.number = as.numeric(args[8])
 
 if (bin.number <= 0) bin.number = 1
 calg = "C5.0"
 split = c("train", "test")
 
  # open mongo connection
-collname = paste(db.name, "_", split[2], sep="")
+collname = paste(db.collection_name, "_", split[2], sep="")
 conn = mongo(collname, db.name)
 testdata = conn$find()
 class.number = ncol(testdata)
