@@ -13,10 +13,11 @@ main <- function() {
 	# read and validate command args
 	args = commandArgs()
 	db.name = args[6]
+	db.collection_name = args[7]
 	if (is.na(db.name)) stop("database / file name is missing (entry arguments)")
-	split.ratio = as.numeric(args[7])
+	split.ratio = as.numeric(args[8])
 	if (is.na(split.ratio) || split.ratio < 0.1) split.ratio = 0.7
-	data.limit = as.numeric(args[8])
+	data.limit = as.numeric(args[9])
 	split.names = c("train", "test")
 	data.train = data.frame()
 	data.test = data.frame()
@@ -74,7 +75,7 @@ main <- function() {
 	# insert test and train subsets into database
 	for (i in 1:length(split.names)) {
 
-		collection = paste(db.name, "_", split.names[i], sep="")
+		collection = paste(db.collection_name, "_", split.names[i], sep="")
 		conn = mongo(collection, db.name)
 		if (conn$count() > 0) conn$drop()
 		data = eval(as.name(paste("data.", split.names[i], sep="")))

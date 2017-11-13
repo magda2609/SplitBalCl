@@ -8,8 +8,9 @@ library("ROCR")
  # initial variables
 args = commandArgs()
 db.name = args[6];
-doc.name = args[7];
-conn = mongo(paste(db.name, "_test", sep=""), db.name)
+db.collection_name = args[7];
+doc.name = args[8];
+conn = mongo(paste(db.collection_name, "_test", sep=""), db.name)
 testdata = conn$find()
 conn = mongo(doc.name, db.name)
 ens = conn$find()
@@ -32,14 +33,15 @@ perf = performance(pred, "auc")
 
 auc = matrix(nrow = 1, ncol = 2)
 colnames(auc) = c("Method", "AUC")
-if (doc.name == "ens_1") doc.name = "SplitBal"
-if (doc.name == "edbc") doc.name = "EDBC"
-auc[1, 1] = doc.name
+doc.namex = ""
+if (doc.name == "ens_1") doc.namex = "SplitBal"
+if (doc.name == "edbc") doc.namex = "EDBC"
+auc[1, 1] = doc.namex
 auc[1, 2] = as.numeric(slot(perf, "y.values")[1])
 
  # return result
-conn = mongo("auc", db.name)
-#if (conn$count() > 0) conn$drop()
+conn = mongo(paste("auc", db.collection_name, doc.name, sep="_"), db.name)
+if (conn$count() > 0) conn$drop()
 conn$insert(as.data.frame(auc))
 
  # close mongo connection

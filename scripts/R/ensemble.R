@@ -7,9 +7,10 @@ library("mongolite")
  # initial variables
 args = commandArgs()
 db.name = args[6];
-bin.number = c(as.numeric(args[7]), as.numeric(args[8]));
-strategy = args[9];
-conn = mongo(paste(db.name, "_test", sep=""), db.name)
+db.collection_name = args[7]
+bin.number = c(as.numeric(args[8]), as.numeric(args[9]));
+strategy = args[10];
+conn = mongo(paste(db.collection_name, "_test", sep=""), db.name)
 testdata = conn$find()
 
  # read result seubsets from database
