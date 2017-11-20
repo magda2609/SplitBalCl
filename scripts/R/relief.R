@@ -32,14 +32,14 @@ for (y in 1:length(output)) {
 
 	#remove negligible columns
 	for (x in 1:length(output)) {
-		if ((as.double(output[[x]]) <= as.double(output[[y]]) ) && (as.double(output[[x]]) >= -as.double(output[[y]]))) {
+		if (abs(as.double(output[[x]])) <= abs(as.double(output[[y]]) )) {
 			  counter=counter+1
 				newdata = newdata[ , !(names(newdata) %in% names(output[x]))]
 		}
 	}
 
   datasetfilename = paste(db.name, counter, sep="_")
-	fileBoundary <- rbind(fileBoundary, data.frame(filename = datasetfilename, boundary = output[[y]]))
+	fileBoundary <- rbind(fileBoundary, data.frame(filename = datasetfilename, boundary = abs(output[[y]])))
 	write.csv(newdata, paste("datasets/final/relief/", db.name, "/", datasetfilename, ".csv", sep=""), row.names=F, quote = FALSE)
 }
 
