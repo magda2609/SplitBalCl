@@ -29,7 +29,7 @@ main <- function() {
 		data = conn$find()
 	}
 	else {
-		file.name = paste("datasets/", db.name, ".csv", sep = "")
+		file.name = paste("datasets/final/", db.name, ".csv", sep = "")
 		if (!file.exists(file.name)) stop("database collection nor dataset file has been found")
 		data = read.table(file.name, header=TRUE, dec=".", sep=",", strip.white = TRUE, row.names=NULL)
 		conn$insert(data)
